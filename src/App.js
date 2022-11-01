@@ -1,40 +1,50 @@
-import './App.css';
-import Header from "./components/Header";
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import "./App.css";
+import { Routes, Route, Outlet, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/Home";
 import About from "./components/About";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Films from "./components/Films"
-import AboutFilm from "./components/AboutFilm"
-import styles from './components/base.scss'
+
+import Header from "./components/Header";
+import AboutFilm from "./components/AboutFilm";
+import styles from "./components/base.scss";
 import BuyTicket from "./components/BuyTicket";
 
-
-
 function App() {
-    return (
-        <Router>
-            <div className={styles.base} style={{padding: '20px 40px'}}>
-                <Header/>
-                <Switch>
-                    <Route path='/' exact={true}>
-                        <Home/>
-                        <Films/>
-                    </Route>
-                    <Route path='/about'>
-                        <About/>
-                    </Route>
-                    <Route  path={'/films/about/:id'}>
-                        <AboutFilm/>
-                    </Route>
-                    <Route  path={'/films/:id'}>
-                        <BuyTicket/>
-                    </Route>
-                </Switch>
-            </div>
-        </Router>
-    );
+  return (
+    <div>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="*" element={<NoMatch />} />
+
+          <Route path="/films/about/:id" element={<AboutFilm />} />
+          <Route path="/films/:id" element={<BuyTicket />} />
+
+        </Route>
+      </Routes>
+    </div>
+  );
+}
+
+function Layout() {
+  return (
+    <div>
+      <Header />
+      <Outlet />
+    </div>
+  );
+}
+
+function NoMatch() {
+  return (
+    <div>
+      <h2>Nothing to see here!</h2>
+      <p>
+        <Link to="/">Go to the home page</Link>
+      </p>
+    </div>
+  );
 }
 
 export default App;
-

@@ -2,7 +2,7 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import logoImage from '../assets/logo1.svg'
 import styles from './Header.css'
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Header = () => {
 
