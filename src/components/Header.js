@@ -1,33 +1,26 @@
-import React from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import logoImage from '../assets/logo1.svg'
-import styles from './Header.css'
+import React from "react";
 import { Link } from "react-router-dom";
+import { Nav, Navbar, Container } from "react-bootstrap";
+
+import logoImage from "../assets/logo1.svg";
 
 const Header = () => {
-
-    return (
-        <div>
-            <div className={styles.container}>
-                <header
-                    className="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                    <a href="/"
-                       className="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                        <img src={logoImage} alt='' height='50'/>
-                        <h1 style={{fontSize: '20px', margin: '15px'}}>Кинотеатр Бауманец</h1>
-                    </a>
-
-                    <ul className="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                        <li><Link to="/" className="nav-link px-2 link-dark">Home</Link></li>
-                        <li><Link to="/about" className="nav-link px-2 link-dark">About</Link></li>
-                    </ul>
-
-                </header>
-            </div>
-        </div>
-    );
+  return (
+    <Navbar bg="light" expand="lg" className="mb-5">
+      <Container>
+        <Navbar.Brand href="#home">
+          <img src={logoImage} alt="" height="50" />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <Nav>
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={Link} to="/about">About</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 };
 
 export default Header;
-
-

@@ -1,60 +1,56 @@
-import React, {useState} from 'react';
-import styles from "./Films.scss"
-import Card from "react-bootstrap/Card";
+import React, { useState } from "react";
+import { Col, Row, Image } from "react-bootstrap";
 import axios from "axios";
-
+import { useParams } from "react-router-dom";
 
 const Films = () => {
-    const [film, setFilms] = React.useState([])
-    const [loading, setLoading] = useState(true)
+  const [film, setFilms] = React.useState([]);
+  const [loading, setLoading] = useState(true);
 
-    React.useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const {data} = await axios.get(
-                    'http://127.0.0.1:8000/api/v1/films/:id'
-                )
-                console.log(data)
+  let { id } = useParams();
 
-                setFilms(data)
-            } catch (error) {
-                console.log(error)
-            }
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axios.get(
+          `http://127.0.0.1:8000/api/v1/films/${id}`
+        );
+        console.log(data);
 
-            setLoading(false)
-        }
+        setFilms(data);
+      } catch (error) {
+        console.log(error);
+      }
 
-        fetchData()
-    }, [])
+      setLoading(false);
+    };
 
+    fetchData();
+  }, [id]);
 
-    return (
-        <div>
-            {loading && 'Загрузка...'}
+  return (
+    <>
+      <h2 className="mb-3">{film.name}</h2>
 
+      <Row>
+        {loading && "Загрузка..."}
 
-            <div className={styles.wrapper}>
-                <div className={styles.wrapper} style={{
-                    display: 'flex', justifyContent: 'center',
-                    overflow: 'auto'
-                }}>
+        <Col xs="12" md="6" lg="4" xl="3">
+          <Image src={film.image} alt={`${film.name} постер`} />
+        </Col>
+        <Col xs="12" md="6" lg="4" xl="3">
+          <h5 className="fw-bold">Жанры</h5>
+          <p>{film.genres}</p>
+          <h5 className="fw-bold">Сюжет</h5>
+          <p>{film.description}</p>
+          <h5 className="fw-bold">Страна производства</h5>
+          <p>{film.country}</p>
+          <h5 className="fw-bold">Год релиза</h5>
+          <p>{film.year}</p>
+        </Col>
+      </Row>
+    </>
+  );
+};
 
-                    <div className={styles.card}>
-                        <Card style={{width: '18rem', margin: '15px'}}>
-                            <Card.Img className={styles.img} variant="top" src={''}/>
-                            <Card.Body>
-                                <Card.Title style={{textAlign: 'center'}}>Название</Card.Title>
-                                <Card.Text>Описание
-                                    Жанры
-                                    Страна
-                                    Год</Card.Text>
-                            </Card.Body>
-                        </Card>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
-}
-
-export default Films
+export default Films;
