@@ -1,24 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Button, Container, Col, Row, Card } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
+import { loadFilms, setLoading } from "./reducerSlice";
 
 const Films = () => {
-  const [films, setFilms] = React.useState([]);
-  const [loading, setLoading] = useState(true);
+  const films = useSelector(state => state.toolkit.films);
+  const loading = useSelector(state => state.toolkit.isLoading);
+  const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    const fetchData = async () => {
+  useEffect(() => {
+     const fetchData = async () => {
       try {
         const { data } = await axios.get("http://127.0.0.1:8000/api/v1/films/");
         console.log(data);
 
-        setFilms(data);
+        dispatch(loadFilms(data));
       } catch (error) {
         console.log(error);
       }
 
-      setLoading(false);
+      dispatch(setLoading(false));
     };
 
     fetchData();
